@@ -22,23 +22,12 @@ namespace controller_parameter_server
 {
 
 ParameterServer::ParameterServer()
-: rclcpp::node::Node("controller_parameter_server")
+: rclcpp::Node("controller_parameter_server")
 {}
-
-void
-ParameterServer::init()
-{
-  parameter_service_ =
-    std::make_shared<rclcpp::parameter_service::ParameterService>(shared_from_this());
-}
 
 void
 ParameterServer::load_parameters(const std::string & yaml_config_file)
 {
-  if (!parameter_service_) {
-    throw std::runtime_error("parameter server is not initialized");
-  }
-
   if (yaml_config_file.empty()) {
     throw std::runtime_error("yaml config file path is empty");
   }
@@ -48,18 +37,14 @@ ParameterServer::load_parameters(const std::string & yaml_config_file)
 
   auto key_values = parser.get_key_value_pairs();
   for (auto pair : key_values) {
-    this->set_parameters({rclcpp::parameter::ParameterVariant(pair.first, pair.second)});
+    this->set_parameters({rclcpp::Parameter(pair.first, pair.second)});
   }
 }
 
 void
 ParameterServer::load_parameters(const std::string & key, const std::string & value)
 {
-  if (!parameter_service_) {
-    throw std::runtime_error("parameter server is not initialized");
-  }
-
-  this->set_parameters({rclcpp::parameter::ParameterVariant(key, value)});
+  this->set_parameters({rclcpp::Parameter(key, value)});
 }
 
 }  // namespace controller_parameter_server

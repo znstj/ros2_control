@@ -21,7 +21,7 @@
 #include "ament_index_cpp/get_resource.hpp"
 #include "ament_index_cpp/get_resources.hpp"
 
-#include "class_loader/class_loader.h"
+#include "class_loader/class_loader.hpp"
 
 #include "controller_interface/controller_interface.hpp"
 
@@ -130,7 +130,7 @@ ControllerManager::ControllerManager(
   std::shared_ptr<hardware_interface::RobotHardware> hw,
   std::shared_ptr<rclcpp::executor::Executor> executor,
   const std::string & manager_node_name)
-: rclcpp::node::Node(manager_node_name),
+: rclcpp::Node(manager_node_name),
   hw_(hw),
   executor_(executor)
 {}
